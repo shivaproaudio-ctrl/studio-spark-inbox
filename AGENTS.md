@@ -28,3 +28,5 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+Keep the imported Click Arrow site under `src/click-arrow/` and load it at `/` through a lazy `ClientOnly` boundary; this keeps its WebGL and browser-only code out of server rendering.

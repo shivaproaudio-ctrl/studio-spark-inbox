@@ -1,0 +1,107 @@
+{
+  "source": {
+    "type": "github",
+    "url": "https://github.com/prx003/quickstart-spark-runner.git",
+    "visibility": "public"
+  },
+  "capabilities": [
+    {
+      "capability": "application code and routes",
+      "source": "GitHub repository",
+      "outcome": "Port the Click Arrow single-page creative studio site and its interactions to the existing TanStack Start project.",
+      "status": "migrate",
+      "next_action": "Copy the source site, assets, and compatible dependencies; verify the preview."
+    },
+    {
+      "capability": "schema",
+      "source": "none detected",
+      "outcome": "No database schema or tables are present.",
+      "status": "verified",
+      "next_action": "None."
+    },
+    {
+      "capability": "records",
+      "source": "none detected",
+      "outcome": "No application data store or record export is present.",
+      "status": "verified",
+      "next_action": "None."
+    },
+    {
+      "capability": "authentication identities",
+      "source": "none detected",
+      "outcome": "The site has no sign-in or user account system.",
+      "status": "verified",
+      "next_action": "None."
+    },
+    {
+      "capability": "authorization",
+      "source": "none detected",
+      "outcome": "No roles, memberships, or access-control rules are present.",
+      "status": "verified",
+      "next_action": "None."
+    },
+    {
+      "capability": "uploaded file bytes",
+      "source": "repository images and source project logo asset",
+      "outcome": "Six bundled JPEGs, the original logo, and the favicon are available for transfer.",
+      "status": "migrate",
+      "next_action": "Transfer the media into this project's asset storage and update references."
+    },
+    {
+      "capability": "external providers",
+      "source": "Google Fonts, email, and WhatsApp links",
+      "outcome": "Preserve the font stylesheet and direct contact links; no provider credentials or APIs are used.",
+      "status": "migrate",
+      "next_action": "Keep the existing contact destinations and fonts."
+    },
+    {
+      "capability": "contact inquiries",
+      "source": "client-side contact form",
+      "outcome": "The form validates a brief and prepares a prefilled email link; it does not send or store submissions.",
+      "status": "verified",
+      "next_action": "None for a faithful code migration; live lead capture would require a separate service."
+    },
+    {
+      "capability": "public endpoints",
+      "source": "none detected",
+      "outcome": "No application API endpoints are present.",
+      "status": "verified",
+      "next_action": "None."
+    },
+    {
+      "capability": "callbacks and webhooks",
+      "source": "none detected",
+      "outcome": "No OAuth callbacks or webhook handlers are present.",
+      "status": "verified",
+      "next_action": "None."
+    },
+    {
+      "capability": "schedules",
+      "source": "none detected",
+      "outcome": "No scheduled jobs or cron tasks are present.",
+      "status": "verified",
+      "next_action": "None."
+    },
+    {
+      "capability": "secrets",
+      "source": "source configuration and code scan",
+      "outcome": "No application secrets or required environment variables were detected.",
+      "status": "verified",
+      "next_action": "None."
+    },
+    {
+      "capability": "cutover",
+      "source": "source configuration",
+      "outcome": "No source production domain or external caller cutover is configured in the repository.",
+      "status": "verified",
+      "next_action": "None."
+    },
+    {
+      "capability": "verification",
+      "source": "target preview",
+      "outcome": "The migrated page and interactions have not yet been exercised in the target preview.",
+      "status": "pending",
+      "next_action": "Check desktop and mobile rendering, the service gallery, and contact form flow."
+    }
+  ]
+}
