@@ -143,6 +143,14 @@
   --sidebar-ring: oklch(0.551 0.027 264.364);
 }
 
+@theme {
+  --font-display: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;
+  --color-brand-red: oklch(0.55 0.24 27);
+  --color-brand-black: oklch(0.09 0 0);
+  --color-brand-white: oklch(1 0 0);
+}
+
 @layer base {
   * {
     border-color: var(--color-border);

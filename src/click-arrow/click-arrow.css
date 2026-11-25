@@ -1,0 +1,98 @@
+.click-arrow-app {
+  overflow-x: clip;
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-mono-tabular {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.crt-scanlines {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgb(255 255 255 / 4%) 0,
+    rgb(255 255 255 / 4%) 1px,
+    rgb(0 0 0 / 28%) 1px,
+    rgb(0 0 0 / 28%) 3px
+  );
+}
+
+.crt-vignette {
+  box-shadow:
+    inset 0 0 42px rgb(0 0 0 / 85%),
+    inset 0 1px 0 rgb(255 255 255 / 16%);
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+@keyframes ca-modal-fade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes ca-modal-rise {
+  from {
+    opacity: 0;
+    transform: translateY(28px) scale(0.955);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.ca-modal-backdrop {
+  animation: ca-modal-fade 0.28s ease-out both;
+}
+
+.ca-modal-panel {
+  animation: ca-modal-rise 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes ca-btn-fire {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgb(232 0 18 / 70%);
+  }
+
+  35% {
+    transform: scale(0.94);
+  }
+
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 24px rgb(232 0 18 / 0%);
+  }
+}
+
+.ca-btn-fire {
+  animation: ca-btn-fire 0.55s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .click-arrow-app *,
+  .click-arrow-app *::before,
+  .click-arrow-app *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}

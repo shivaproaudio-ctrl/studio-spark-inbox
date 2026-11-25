@@ -1,23 +1,48 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { ClientOnly, createFileRoute } from "@tanstack/react-router";
+import { lazy, Suspense } from "react";
 
-// The home route ships no og:image, so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
+const App = lazy(() => import("@/click-arrow/App"));
+
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "Click Arrow — Creative, Brand & Digital Studio" },
+      {
+        name: "description",
+        content:
+          "Click Arrow brings strategy, creative direction, and digital execution together to build stronger brands and meaningful experiences.",
+      },
+      {
+        property: "og:title",
+        content: "Click Arrow — Creative, Brand & Digital Studio",
+      },
+      {
+        property: "og:description",
+        content:
+          "Strategy, creative direction, and digital execution for brands ready to move forward.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+    links: [
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap",
+      },
+    ],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
 function Index() {
+  const fallback = <div className="min-h-screen bg-brand-black" />;
+
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
+    <ClientOnly fallback={fallback}>
+      <Suspense fallback={fallback}>
+        <App />
+      </Suspense>
+    </ClientOnly>
   );
 }
