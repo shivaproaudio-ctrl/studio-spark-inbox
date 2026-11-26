@@ -25,23 +25,42 @@ export function BrandExperienceSection() {
     if (prefersReducedMotion) return;
 
     const ctx = gsap.context(() => {
-      gsap.from('[data-exp-cards] > button', {
-        y: 44,
-        opacity: 0,
-        rotateX: -8,
-        duration: 0.75,
-        stagger: 0.1,
-        ease: 'power3.out',
-        scrollTrigger: { trigger: section, start: 'top 76%' },
+      const reveal = gsap.timeline({
+        scrollTrigger: {
+          trigger: section,
+          start: 'top 78%',
+          once: true,
+          invalidateOnRefresh: true,
+        },
       });
 
-      gsap.from('[data-exp-hub]', {
-        x: 48,
-        opacity: 0,
-        duration: 0.85,
-        ease: 'power3.out',
-        scrollTrigger: { trigger: section, start: 'top 74%' },
-      });
+      reveal
+        .fromTo(
+          '[data-exp-cards] > button',
+          { y: 56, autoAlpha: 0, rotateX: -6, scale: 0.97 },
+          {
+            y: 0,
+            autoAlpha: 1,
+            rotateX: 0,
+            scale: 1,
+            duration: 0.72,
+            stagger: 0.11,
+            ease: 'power3.out',
+            clearProps: 'transform',
+          },
+        )
+        .fromTo(
+          '[data-exp-hub]',
+          { x: 48, autoAlpha: 0 },
+          {
+            x: 0,
+            autoAlpha: 1,
+            duration: 0.82,
+            ease: 'power3.out',
+            clearProps: 'transform',
+          },
+          '-=0.62',
+        );
     }, section);
 
     return () => ctx.revert();

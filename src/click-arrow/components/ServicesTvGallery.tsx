@@ -1,6 +1,6 @@
 // @ts-nocheck -- imported code written for looser compiler settings
 import { ArrowLeft, ArrowRight, Maximize2 } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { SERVICES_CHANNELS } from '../data/clickArrowData';
 import { CrtCanvasScreen } from './CrtCanvasScreen';
 
@@ -17,6 +17,7 @@ export function ServicesTvGallery({
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const touchStartX = useRef<number | null>(null);
   const wheelLock = useRef(0);
+  const activeTvRef = useRef<HTMLDivElement | null>(null);
   const sectionRef = useRef<HTMLElement>(null);
   const activeIndexRef = useRef(0);
   activeIndexRef.current = activeIndex;
@@ -32,8 +33,23 @@ export function ServicesTvGallery({
     setActiveIndex((prev) => (prev + 1) % total);
   };
 
-  // Wheel over the section cycles channels first and holds the page scroll;
-  // only at the first/last channel does the page keep scrolling.
+  const isActiveTvFullyVisible = useCallback(() => {
+    const tv = activeTvRef.current;
+    if (!tv) return false;
+
+    const rect = tv.getBoundingClientRect();
+    const fixedHeaderBottom =
+      document.querySelector('header')?.getBoundingClientRect().bottom ?? 0;
+
+    return (
+      rect.top >= fixedHeaderBottom &&
+      rect.bottom <= window.innerHeight &&
+      rect.left >= 0 &&
+      rect.right <= window.innerWidth
+    );
+  }, []);
+
+  // Let the page reveal the complete CRT first; then wheel input tunes channels.
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
@@ -45,12 +61,7 @@ export function ServicesTvGallery({
       const canCycle = goingDown ? idx < total - 1 : idx > 0;
       if (!canCycle) return; // at the edge: let the page scroll on
 
-      // Only hijack once the section is properly in view
-      const rect = section.getBoundingClientRect();
-      const engaged =
-        rect.top < window.innerHeight * 0.45 &&
-        rect.bottom > window.innerHeight * 0.6;
-      if (!engaged) return;
+      if (!isActiveTvFullyVisible()) return;
 
       e.preventDefault();
       e.stopPropagation(); // keep Lenis smooth-scroll from moving the page
@@ -62,7 +73,7 @@ export function ServicesTvGallery({
 
     section.addEventListener('wheel', onWheel, { passive: false });
     return () => section.removeEventListener('wheel', onWheel);
-  }, [total]);
+  }, [isActiveTvFullyVisible, total]);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -83,7 +94,7 @@ export function ServicesTvGallery({
     if (touchStartX.current === null) return;
     const endX = e.changedTouches[0]?.clientX ?? touchStartX.current;
     const diff = endX - touchStartX.current;
-    if (Math.abs(diff) > 40) {
+    if (Math.abs(diff) > 40 && isActiveTvFullyVisible()) {
       if (diff < 0) goNext();
       else goPrev();
     }
@@ -210,6 +221,7 @@ export function ServicesTvGallery({
                 return (
                   <div
                     key={ch.id}
+                    ref={isCenter ? activeTvRef : null}
                     onClick={() => {
                       if (isCenter) onOpenModal(idx);
                       else setActiveIndex(idx);

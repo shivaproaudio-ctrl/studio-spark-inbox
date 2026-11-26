@@ -1,5 +1,6 @@
 # Migration roadmap
 
 - [x] Inspect the public GitHub repository and record detected capabilities.
-- [ ] Port the Click Arrow site, media, fonts, and required packages to `/`.
-- [ ] Verify the preview and key interactive flows; update the migration ledger.
+- [x] Port the Click Arrow site, media, fonts, and required packages to `/`.
+- [ ] Complete the three open comments: animated scroll reveals and full-TV visibility before channel scrolling.
+- [ ] Verify desktop/mobile rendering and key interactions; update the migration ledger.

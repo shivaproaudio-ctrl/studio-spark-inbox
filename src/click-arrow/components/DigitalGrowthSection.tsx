@@ -22,22 +22,41 @@ export function DigitalGrowthSection() {
     if (prefersReducedMotion) return;
 
     const ctx = gsap.context(() => {
-      gsap.from('[data-growth-nodes] > button', {
-        y: 38,
-        opacity: 0,
-        duration: 0.7,
-        stagger: 0.08,
-        ease: 'power3.out',
-        scrollTrigger: { trigger: section, start: 'top 76%' },
+      const reveal = gsap.timeline({
+        scrollTrigger: {
+          trigger: section,
+          start: 'top 78%',
+          once: true,
+          invalidateOnRefresh: true,
+        },
       });
 
-      gsap.from('[data-growth-panel]', {
-        x: 46,
-        opacity: 0,
-        duration: 0.8,
-        ease: 'power3.out',
-        scrollTrigger: { trigger: section, start: 'top 74%' },
-      });
+      reveal
+        .fromTo(
+          '[data-growth-nodes] > button',
+          { y: 52, autoAlpha: 0, scale: 0.96 },
+          {
+            y: 0,
+            autoAlpha: 1,
+            scale: 1,
+            duration: 0.72,
+            stagger: 0.12,
+            ease: 'power3.out',
+            clearProps: 'transform',
+          },
+        )
+        .fromTo(
+          '[data-growth-panel]',
+          { x: 48, autoAlpha: 0 },
+          {
+            x: 0,
+            autoAlpha: 1,
+            duration: 0.8,
+            ease: 'power3.out',
+            clearProps: 'transform',
+          },
+          '-=0.62',
+        );
     }, section);
 
     return () => ctx.revert();
