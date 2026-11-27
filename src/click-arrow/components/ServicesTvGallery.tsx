@@ -17,6 +17,7 @@ export function ServicesTvGallery({
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const touchStartX = useRef<number | null>(null);
   const wheelLock = useRef(0);
+  const lastWheelAt = useRef(0);
   const activeTvRef = useRef<HTMLDivElement | null>(null);
   const sectionRef = useRef<HTMLElement>(null);
   const activeIndexRef = useRef(0);
@@ -56,16 +57,28 @@ export function ServicesTvGallery({
 
     const onWheel = (e: WheelEvent) => {
       if (Math.abs(e.deltaY) < 12) return;
+      const now = Date.now();
+      const continuingWheelGesture = now - lastWheelAt.current < 220;
+      lastWheelAt.current = now;
+
       const idx = activeIndexRef.current;
       const goingDown = e.deltaY > 0;
       const canCycle = goingDown ? idx < total - 1 : idx > 0;
-      if (!canCycle) return; // at the edge: let the page scroll on
+
+      if (!canCycle) {
+        // Swallow the tail of the same wheel burst after the final channel.
+        // A fresh gesture then resumes normal page scrolling.
+        if (continuingWheelGesture) {
+          e.preventDefault();
+          e.stopImmediatePropagation();
+        }
+        return;
+      }
 
       if (!isActiveTvFullyVisible()) return;
 
       e.preventDefault();
-      e.stopPropagation(); // keep Lenis smooth-scroll from moving the page
-      const now = Date.now();
+      e.stopImmediatePropagation(); // keep Lenis and page scrolling in sync
       if (now - wheelLock.current < 350) return;
       wheelLock.current = now;
       setActiveIndex(goingDown ? idx + 1 : idx - 1);
